@@ -62,12 +62,8 @@ class MainActivity : AppCompatActivity() {
         view: WebView?,
         request: WebResourceRequest?
     ){
-        var isFist = false
-        if(isFist){
             val postData = ""
             view?.postUrl(request?.url.toString(), postData.toByteArray(Charsets.UTF_8))
-            isFist = true
-        }
     }
 
 
