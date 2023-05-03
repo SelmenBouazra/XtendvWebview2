@@ -1,6 +1,5 @@
 package com.example.xtendtvwebview
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebResourceRequest
@@ -33,15 +32,9 @@ class MainActivity : AppCompatActivity() {
         binding.webView.webViewClient  = object : WebViewClient(){
 
 
-            override fun shouldOverrideUrlLoading(
-                view: WebView?,
-                request: WebResourceRequest?
-            ): Boolean {
-                val url = request?.url?.toString()
-                if (url != null) {
-                    Toast.makeText(this@MainActivity, url, Toast.LENGTH_SHORT).show()
-                }
-                return super.shouldOverrideUrlLoading(view, request)
+            override fun doUpdateVisitedHistory(view: WebView?, url: String?, isReload: Boolean) {
+                Toast.makeText(this@MainActivity, "URL changed to $url", Toast.LENGTH_SHORT).show()
+                super.doUpdateVisitedHistory(view, url, isReload)
             }
 
 
@@ -49,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 view: WebView?,
                 request: WebResourceRequest?
             ): WebResourceResponse? {
-                if(request != null &&  request.method == "GET"){
+                if (request != null && request.requestHeaders.containsKey("X-Requested-With")) {
                     Log.d("XHR", request.url.toString())
                     sendPost(view, request)
                 }
